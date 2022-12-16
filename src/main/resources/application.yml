@@ -1,0 +1,11 @@
+spring:
+  datasource:
+    name: Social_Science
+    url: jdbc:mysql://localhost:3306/Social_Science
+    username: root
+    password: EBHELJqrukn9McabuEoN
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.example.generalized_new.bean

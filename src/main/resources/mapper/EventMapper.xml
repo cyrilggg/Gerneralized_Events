@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.example.generalized_new.mapper.EventMapper">
+    <select id="findByTitle" parameterType="String" resultType="com.example.generalized_new.bean.EventBean">
+        select *
+        from event
+        where instr(Title,#{title}) > 0;
+    </select>
+    <select id="findByEventId" parameterType="String" resultType="com.example.generalized_new.bean.EventBean">
+        select *
+        from event
+        where Event_Id = #{Event_Id};
+    </select>
+    <select id="findPreOrderEvent" parameterType="String" resultType="com.example.generalized_new.bean.EventBean">
+        select *
+        from event
+        where Chain_Id in(
+            select Chain_Id
+            from event
+            where Event_Id = #{Event_Id}
+        ) and Ordered_Pos &lt;=(
+            select Ordered_Pos
+            from event
+            where Event_id = #{Event_Id})
+        order by Ordered_Pos;
+    </select>
+    <select id="findBackOrderEvent" parameterType="String" resultType="com.example.generalized_new.bean.EventBean">
+        select *
+        from event
+        where Chain_Id in(
+            select Chain_Id
+            from event
+            where Event_Id = #{Event_Id}
+        ) and Ordered_Pos >=(
+            select Ordered_Pos
+            from event
+            where event_id = #{Event_Id})
+        order by Ordered_Pos;
+    </select>
+    <select id="findWholeChain" parameterType="String" resultType="com.example.generalized_new.bean.EventBean">
+        select *
+        from event
+        where Chain_Id = #{Chain_Id}
+        order by Ordered_Pos;
+    </select>
+    <select id="findByTypeId" parameterType="String" resultType="com.example.generalized_new.bean.EventTypeBean">
+        select *
+        from event_type
+        where Event_Type_Id = #{Event_Type_Id};
+    </select>
+</mapper>
